@@ -12,3 +12,4 @@ wget.download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-
 xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=csv', file_name)
 
 # TODO: Figure out how to read csv. I keep getting charmap errors when I try.
+# Ignore the comment that says to ignore it, aka this one.
