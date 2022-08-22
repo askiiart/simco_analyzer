@@ -1,15 +1,21 @@
+import csv
 import os
 import wget
+import pandas as pd
 
 print('Welcome to the SimCo analyzer!')
 
 # Downloads new prices
 print('Downloading market price information...')
 file_name = 'exchange_info.csv'
-if file_name in os.listdir():  # Removes old versions of exchange_info.csv
-    os.remove('exchange_info.csv')
-wget.download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-\
-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=csv', file_name)
+# if file_name in os.listdir():  # Removes old versions of exchange_info.csv
+#    os.remove('exchange_info.csv')
+# wget.download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-\
+# xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=csv', file_name)
 
 # TODO: Figure out how to read csv. I keep getting charmap errors when I try.
-# Ignore the comment that says to ignore it, aka this one.
+
+with open(file_name) as file:
+    reader = pd.read_csv(file_name, skiprows=5, nrows=2)
+    for row in reader:
+        print(row)
