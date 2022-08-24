@@ -12,10 +12,18 @@ file_name = 'exchange_info.csv'
 #    os.remove('exchange_info.csv')
 # wget.download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-\
 # xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=csv', file_name)
+print('Download finished!')
 
-# TODO: Figure out how to read csv. I keep getting charmap errors when I try.
-
+# I just read the csv manually, I couldn't figure out how to use pandas, and csv skipped the last week-ish.
 with open(file_name) as file:
-    reader = pd.read_csv(file_name, skiprows=5, nrows=2)
-    for row in reader:
-        print(row)
+    for _ in range(6):
+        file.readline()
+    names_list = file.readline().strip().split(',')[3:]
+    prices_list = file.readline().strip().split(',')[3:]
+
+# Creates a dict holding the prices of everything, using names_list and prices_list
+prices = {}
+for i in range(len(names_list)):
+    prices[names_list[i]] = prices_list[i]
+
+
