@@ -27,22 +27,28 @@ class MapManager:
         self.products_file_name = 'data/' + self.products_file_name
 
     def download_and_process(self):
+        exchange_download = False
         if self.download:
-            print('Downloading data...')
             if self.exchange_file_name in os.listdir():  # Removes old versions of exchange_info.csv
                 os.remove('exchange_info.csv')
+            exchange_download = True
+        elif self.exchange_file_name not in os.listdir():
+            print('Exchange info not detected, must be downloaded')
+            exchange_download = False
+        if exchange_download:
+            print('Downloading data...')
             download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYs\
             dumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv', 'self.exchange_file_name')
             print('Exchange info downloaded')
 
-            if self.buildings_file_name not in os.listdir():
-                download('https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?\
-                format=tsv', 'self.buildings_file_name')
-                print('Building info downloaded')
-            else:
-                print('Building info already downloaded')
+        if self.buildings_file_name not in os.listdir():
+            download('https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?\
+            format=tsv', 'self.buildings_file_name')
+            print('Building info downloaded')
+        else:
+            print('Building info already downloaded')
 
-            # TODO: Finish products.tsv and add download for it
+        # TODO: Finish products.tsv and add download for it (duplicate logic from buildings.tsv)
 
         # I just read the csv manually, I couldn't figure out how to use pandas, and csv skipped the last week-ish.
         with open(self.exchange_file_name) as file:
