@@ -68,5 +68,8 @@ class MapManager:
     def run(self):
         pass
 
-    def get_profit(self):
+    def _get_profit(self):
+        pass
+
+    def get_results(self):
         pass
