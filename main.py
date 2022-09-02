@@ -7,6 +7,5 @@ download_new = False
 debug = False
 
 manager = MapManager(map_slots, debug, download_new, max_building_cost=10_000_000)
-manager.download_and_process()
 manager.run()
 print(manager.get_results())
