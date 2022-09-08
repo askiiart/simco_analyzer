@@ -13,6 +13,7 @@ class MapManager:
         :param max_building_cost: Maximum building cost (optional)
         """
         self.map_slots = map_slots
+        self.best_maps = None
         self.download = download
         self.debug = debug
         self.buildings = None
@@ -27,6 +28,8 @@ class MapManager:
         self.download_and_process()
 
     def download_and_process(self):
+        # TODO: Add pickling for building and products info (not prices)
+
         os.chdir('data')
         exchange_download = False
         if self.download:
@@ -78,14 +81,21 @@ class MapManager:
         '''
 
     def run(self):
-        best_maps = []  # In the format [[[products list], profit per 24h, construction cost], [{products set (2)}, profit per 24h (2), construction cost (2)]]
-        current_map = [list()]
 
-        # Loop through product names, then again adding
-        for i in range(len(self.prices.keys())):
-            for j in range(self.map_slots - 1):
-                for k in range(len(self.prices.keys())):
-                    k += 1 + j  # Offsets for starting position (1), and for already run loops
+        self.best_maps = []  # In the format [[[products list], profit per 24h, construction cost], [{products set (2)},
+        # profit per 24h (2), construction cost (2)]]
+        current_map = []
+
+        products_list = list(self.prices.keys())
+
+        # TODO: Fix creation of the iterations (not the right word but IDK) of the map
+        for i in range(len(products_list)):
+            current_map[0] = [products_list[i]]
+            for j in range(self.map_slots):
+                k = i + j + 1
+                current_map[0].append(products_list[k])
+                if self.debug:
+                    print(current_map[0])
 
     def _analyze_profit(self):
         pass
