@@ -18,7 +18,7 @@ class MapManager:
         self.buildings = None
         self.max_building_cost = max_building_cost
 
-        self.prices = None
+        self.prices = {}
 
         self.exchange_file_name = 'exchange.tsv'
         self.buildings_file_name = 'buildings.tsv'
@@ -53,13 +53,13 @@ class MapManager:
         with open(self.exchange_file_name) as file:
             for _ in range(6):
                 file.readline()
-            names_list = file.readline().strip().split('\t')[3:]
-            products_list = file.readline().strip().split('\t')[3:]
+            names_list = file.readline().lower().strip().split('\t')[3:]
+            prices_list = file.readline().strip().split('\t')[3:]
 
         # Creates a dict holding the prices of everything, using names_list and prices_list
         self.prices = {}
         for i in range(len(names_list)):
-            self.prices[names_list[i]] = products_list[i]
+            self.prices[names_list[i]] = prices_list[i]
 
         # TODO: Add processing for buildings.tsv into a list of str buildings and a dict of lists of info about them
         '''
@@ -74,7 +74,17 @@ class MapManager:
         '''
 
     def run(self):
-        pass
+        best_maps = []  # In the format [[[products list], profit per 24h, construction cost], [{products set (2)}, profit per 24h (2), construction cost (2)]]
+        current_map = []
+        current_map.append(list())
+
+        # Loop through product names, then again adding
+        for i in range(len(self.prices.keys())):
+            for j in range(self.map_slots - 1):
+                for k in range(len(self.prices.keys()):
+                    k += 1 + j  # Offsets for starting position (1), and for already run loops
+
+
 
     def _analyze_profit(self):
         pass
