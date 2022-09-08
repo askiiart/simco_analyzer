@@ -38,11 +38,15 @@ class MapManager:
             exchange_download = True
         if exchange_download:
             print('Downloading data...')
-            download('https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv', self.exchange_file_name)
+            download(
+                'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv',
+                self.exchange_file_name)
             print('Exchange info downloaded')
 
         if self.buildings_file_name not in os.listdir():
-            download('https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv', self.buildings_file_name)
+            download(
+                'https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv',
+                self.buildings_file_name)
             print('Building info downloaded')
         else:
             print('Building info already downloaded')
@@ -75,16 +79,13 @@ class MapManager:
 
     def run(self):
         best_maps = []  # In the format [[[products list], profit per 24h, construction cost], [{products set (2)}, profit per 24h (2), construction cost (2)]]
-        current_map = []
-        current_map.append(list())
+        current_map = [list()]
 
         # Loop through product names, then again adding
         for i in range(len(self.prices.keys())):
             for j in range(self.map_slots - 1):
-                for k in range(len(self.prices.keys()):
+                for k in range(len(self.prices.keys())):
                     k += 1 + j  # Offsets for starting position (1), and for already run loops
-
-
 
     def _analyze_profit(self):
         pass
