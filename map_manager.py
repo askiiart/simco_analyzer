@@ -29,6 +29,7 @@ class MapManager:
         self.download_and_process()
 
     def download_and_process(self):
+        # TODO: Simplify this logic
         # TODO: Add pickling for building and products info (not prices)
 
         if 'data' not in os.listdir():
@@ -88,7 +89,7 @@ class MapManager:
             for row in reader:
                 temp = list(row)
                 self.buildings[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
-                print('plantation', self.buildings['plantation'])
+        print('plantation', self.buildings['plantation'])
 
         # TODO: Add processing for products.tsv into a dict of lists of info about them
         os.chdir('..')
