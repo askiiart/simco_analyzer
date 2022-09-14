@@ -89,7 +89,6 @@ class MapManager:
             for row in reader:
                 temp = list(row)
                 self.buildings[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
-        print('plantation', self.buildings['plantation'])
 
         # TODO: Add processing for products.tsv into a dict of lists of info about them
         os.chdir('..')
