@@ -54,7 +54,13 @@ class MapManager:
         else:
             print('Building info already downloaded')
 
-        # TODO: Finish products.tsv and add download for it (duplicate logic from buildings.tsv)
+        if self.products_file_name not in os.listdir():
+            download(
+                'https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv',
+                self.buildings_file_name)
+            print('Product info downloaded')
+        else:
+            print('Product info already downloaded')
 
         # I just read the csv manually, I couldn't figure out how to use pandas, and csv skipped the last week-ish.
         with open(self.exchange_file_name) as file:
@@ -72,13 +78,12 @@ class MapManager:
         '''
         with open(self.buildings_file_name) as file:
             reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
-            for i in range(len(reader)):
+            for i in range(len(list(reader))):
                 print(reader[i])
 
         # TODO: Add processing for products.tsv into a dict of lists of info about them
-
-        os.chdir('..')
         '''
+        os.chdir('..')
 
     def run(self):
 
