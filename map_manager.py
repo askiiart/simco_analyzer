@@ -4,22 +4,23 @@ from wget import download
 
 
 class MapManager:
-    def __init__(self, map_slots, download, debug, max_building_cost=9999999999999999999999):
+    def __init__(self, map_slots, download_new, debug, max_building_cost=9999999999999999999999):
         """
         Initializes the MapManager class
         :param map_slots: The number of map slots available
-        :param download: Download new data
+        :param download_new: Download new data
         :param debug: Run in debug mode
         :param max_building_cost: Maximum building cost (optional)
         """
         self.map_slots = map_slots
-        self.best_maps = None
-        self.download = download
+        self.download = download_new
         self.debug = debug
-        self.buildings = None
         self.max_building_cost = max_building_cost
 
         self.prices = {}
+        self.buildings = None
+        self.products = None
+        self.best_maps = None
 
         self.exchange_file_name = 'exchange.tsv'
         self.buildings_file_name = 'buildings.tsv'
@@ -30,9 +31,12 @@ class MapManager:
     def download_and_process(self):
         # TODO: Add pickling for building and products info (not prices)
 
+        if 'data' not in os.listdir():
+            os.mkdir('data')
         os.chdir('data')
 
         # Exchange info download
+        # This does not set the exchange info to not download, it is just a temporary bool to help with this logic.
         exchange_download = False
         if self.download:
             if self.exchange_file_name in os.listdir():  # Removes old versions of exchange_info.csv
@@ -60,7 +64,7 @@ class MapManager:
         if self.products_file_name not in os.listdir():
             download(
                 'https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv',
-                self.buildings_file_name)
+                self.products_file_name)
             print('Product info downloaded')
         else:
             print('Product info already downloaded')
@@ -78,14 +82,15 @@ class MapManager:
             self.prices[names_list[i]] = prices_list[i]
 
         # TODO: Add processing for buildings.tsv into a list of str buildings and a dict of lists of info about them
-        '''
         with open(self.buildings_file_name) as file:
             reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
-            for i in range(len(list(reader))):
-                print(reader[i])
+            self.buildings = {}
+            for row in reader:
+                temp = list(row)
+                self.buildings[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
+                print('plantation', self.buildings['plantation'])
 
         # TODO: Add processing for products.tsv into a dict of lists of info about them
-        '''
         os.chdir('..')
 
     def run(self):
