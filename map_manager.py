@@ -31,6 +31,8 @@ class MapManager:
         # TODO: Add pickling for building and products info (not prices)
 
         os.chdir('data')
+
+        # Exchange info download
         exchange_download = False
         if self.download:
             if self.exchange_file_name in os.listdir():  # Removes old versions of exchange_info.csv
@@ -40,12 +42,12 @@ class MapManager:
             print('Exchange info not detected, must be downloaded')
             exchange_download = True
         if exchange_download:
-            print('Downloading data...')
             download(
                 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv',
                 self.exchange_file_name)
             print('Exchange info downloaded')
 
+        # Buildings download
         if self.buildings_file_name not in os.listdir():
             download(
                 'https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv',
@@ -54,6 +56,7 @@ class MapManager:
         else:
             print('Building info already downloaded')
 
+        # Products download
         if self.products_file_name not in os.listdir():
             download(
                 'https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv',
