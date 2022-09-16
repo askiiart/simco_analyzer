@@ -7,6 +7,6 @@ download = True
 debug = True
 max_building_cost = 100_000_000
 
-manager = MapManager(map_slots, debug, download, max_building_cost)
+manager = MapManager(map_slots, download, max_building_cost, debug=debug)
 #manager.run()
 #print(manager.get_results())

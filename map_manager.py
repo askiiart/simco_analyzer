@@ -4,7 +4,7 @@ from wget import download
 
 
 class MapManager:
-    def __init__(self, map_slots, download_new, debug, max_building_cost=9999999999999999999999):
+    def __init__(self, map_slots, download_new, max_building_cost=9999999999999999999999, **kwargs):
         """
         Initializes the MapManager class
         :param map_slots: The number of map slots available
@@ -14,7 +14,10 @@ class MapManager:
         """
         self.map_slots = map_slots
         self.download = download_new
-        self.debug = debug
+        if 'debug' in kwargs:
+            self.debug = kwargs['debug']
+        else:
+            self.debug = False
         self.max_building_cost = max_building_cost
 
         self.prices = {}
