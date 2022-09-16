@@ -1,6 +1,10 @@
 import os
 import csv
-from wget import download
+try:
+    from wget import download
+except ImportError as e:
+    print('Error: Please install wget using"pip install wget"')
+    exit(1)
 
 
 class MapManager:
