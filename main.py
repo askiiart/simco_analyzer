@@ -11,6 +11,7 @@ configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi
 # Gets user ID from config file, if it exists
 if 'data' not in os.listdir():
     os.mkdir('data')
+print(os.listdir())
 try:
     with open('data/configcat.txt') as config:
         id = int(config.readline())
@@ -27,8 +28,12 @@ max_building_cost = 100_000_000
 
 # Turns on debug if the user ID contains "debug"
 debug = configcat_client.get_value('debug', False, user)
-print(debug)
+if debug:
+    print('Debug:', debug)
+    print('Map slots:', map_slots)
+    print('Download:', download)
+    print('Max building cost', max_building_cost)
 
-#manager = MapManager(map_slots, max_building_cost, download_new=download, debug=debug)
+manager = MapManager(map_slots, max_building_cost, download_new=download, debug=debug)
 #manager.run()
 #print(manager.get_results())
