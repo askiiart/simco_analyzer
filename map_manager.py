@@ -120,7 +120,10 @@ class MapManager:
                 if self.debug:
                     print(current_map[0])
 
-    def _analyze_profit(self):
+    def _analyze_profit(self, products):
+        pass
+
+    def _map_cost(self, products):
         pass
 
     def get_results(self):
