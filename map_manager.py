@@ -1,5 +1,6 @@
 import os
 import csv
+import pickle
 try:
     from wget import download
 except ImportError as e:
@@ -45,40 +46,52 @@ class MapManager:
         if 'data' not in os.listdir():
             os.mkdir('data')
         os.chdir('data')
+        if self.debug:
+            print(os.listdir())
 
         # Exchange info download
         # This does not set the exchange info to not download, it is just a temporary bool to help with this logic.
         exchange_download = False
-        if self.download:
-            if self.exchange_file_name in os.listdir():  # Removes old versions of exchange_info.csv
-                os.remove(self.exchange_file_name)
+        if download:
             exchange_download = True
-        if self.exchange_file_name not in os.listdir():
-            print('Exchange info not detected, must be downloaded')
+        elif self.exchange_file_name not in os.listdir():
             exchange_download = True
+
         if exchange_download:
+            if self.exchange_file_name in os.listdir():
+                os.remove(self.exchange_file_name)
+            if self.debug:
+                print('Downloading exchange info...')
             download(
                 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv',
                 self.exchange_file_name)
-            print('Exchange info downloaded')
+            if self.debug:
+                print('Exchange info downloaded')
 
         # Buildings download
-        if self.buildings_file_name not in os.listdir():
+        if f'{self.buildings_file_name[:-4]}.pickle' in os.listdir():
+            pickle.load(open(f'{self.buildings_file_name[:-4]}.pickle', 'rb'))
+        elif self.buildings_file_name not in os.listdir():
+            if self.debug:
+                print('Downloading building info...')
             download(
                 'https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv',
                 self.buildings_file_name)
-            print('Building info downloaded')
+            if self.debug:
+                print('Building info downloaded')
         else:
-            print('Building info already downloaded')
+            print('Building info already downloaded, but not pickled')
 
         # Products download
-        if self.products_file_name not in os.listdir():
+        if f'{self.products_file_name[:-4]}.pickle' in os.listdir():
+            pickle.load(open(f'{self.products_file_name[:-4]}.pickle', 'rb'))
+        elif self.products_file_name not in os.listdir():
             download(
                 'https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv',
                 self.products_file_name)
             print('Product info downloaded')
         else:
-            print('Product info already downloaded')
+            print('Product info already downloaded, but not pickled')
 
         # I just read the csv manually, I couldn't figure out how to use pandas, and csv skipped the last week-ish.
         with open(self.exchange_file_name) as file:
@@ -92,13 +105,13 @@ class MapManager:
         for i in range(len(names_list)):
             self.prices[names_list[i]] = prices_list[i]
 
-        # TODO: Add processing for buildings.tsv into a list of str buildings and a dict of lists of info about them
         with open(self.buildings_file_name) as file:
             reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
             self.buildings = {}
             for row in reader:
                 temp = list(row)
                 self.buildings[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
+        pickle.dump(self.buildings, open(f'{self.buildings_file_name[:-4]}.pickle', 'wb'))
 
         # TODO: Add processing for products.tsv into a dict of lists of info about them
         os.chdir('..')
