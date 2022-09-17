@@ -6,8 +6,16 @@ except ImportError:
     exit(1)
 
 configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi2GUiKNyYwpg5jYA')
-with open('data/configcat.txt') as config:
-    user = configcatclient.user.User(config.readline())  # Put the user id here
+# Gets user ID from config file, if it exists
+if 'data' not in os.listdir():
+    os.mkdir('data')
+try:
+    with open('data/configcat.txt') as config:
+        id = int(config.readline())
+except FileNotFoundError:
+    id = 0
+
+user = configcat_client.user.User(id)
 
 print('Welcome to the SimCo analyzer!')
 
