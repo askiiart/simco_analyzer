@@ -109,7 +109,7 @@ class MapManager:
         # profit per 24h (2), construction cost (2)]]
         current_map = []
 
-        products_list = list(self.prices.keys())
+        products_list = list(self.prices.keys())  # TODO: remove this and use self.products.keys() once products processing is added
 
         # TODO: Fix creation of the iterations (not the right word but IDK) of the map
         for i in range(len(products_list)):
