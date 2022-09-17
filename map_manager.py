@@ -3,7 +3,7 @@ import csv
 try:
     from wget import download
 except ImportError as e:
-    print('Error: Please install wget using"pip install wget"')
+    print('Error: Please install wget using "pip install wget"')
     exit(1)
 
 
