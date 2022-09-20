@@ -5,5 +5,5 @@ This is a tool I'm programming for Sim Companies which will automatically find a
 This tool cannot yet analyze qualities of a product, only the lowest priced quality on the exchange, but I'm planning on
 adding support for qualities later.
 
-Note: This tool will not be able to analyze restaurants. Not ever. That's the only theoretical limitation though, that 
+Note: This tool will not be able to analyze restaurants. Not ever. That's the only limitation though, that 
 and computing power.
