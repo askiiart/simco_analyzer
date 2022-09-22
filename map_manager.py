@@ -1,6 +1,7 @@
 import os
 import csv
 import pickle
+
 try:
     from wget import download
 except ImportError as e:
@@ -93,6 +94,7 @@ class MapManager:
         else:
             print('Product info already downloaded, but not pickled')
 
+        # Prices tsv processing
         # I just read the csv manually, I couldn't figure out how to use pandas, and csv skipped the last week-ish.
         with open(self.exchange_file_name) as file:
             for _ in range(6):
@@ -105,6 +107,7 @@ class MapManager:
         for i in range(len(names_list)):
             self.prices[names_list[i]] = prices_list[i]
 
+        # Buildings tsv processing
         with open(self.buildings_file_name) as file:
             reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
             self.buildings = {}
@@ -113,7 +116,17 @@ class MapManager:
                 self.buildings[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
         pickle.dump(self.buildings, open(f'{self.buildings_file_name[:-4]}.pickle', 'wb'))
 
-        # TODO: Add processing for products.tsv into a dict of lists of info about them
+        # Products tsv processing
+        # TODO: Finish processing for outliers (aerospace research, maybe there's more too)
+        # Outliers, aside from name and transport units, will be dealt with in _analyze_profit
+        with open(self.products_file_name) as file:
+            reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
+            self.products = {}
+            for row in reader:
+                temp = list(row)
+                self.products[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
+        pickle.dump(self.products, open(f'{self.products_file_name[:-4]}.pickle', 'wb'))
+
         os.chdir('..')
 
     def run(self):
@@ -122,7 +135,8 @@ class MapManager:
         # profit per 24h (2), construction cost (2)]]
         current_map = []
 
-        products_list = list(self.prices.keys())  # TODO: remove this and use self.products.keys() once products processing is added
+        products_list = list(
+            self.products.keys())  # TODO: remove this and use self.products.keys() once products processing is added
 
         # TODO: Fix creation of the iterations (not the right word but IDK) of the map
         for i in range(len(products_list)):
