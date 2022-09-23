@@ -115,7 +115,7 @@ class MapManager:
         pickle.dump(self.buildings, open(f'{self.buildings_file_name[:-4]}.pickle', 'wb'))
 
         # Products tsv processing
-        # TODO: Finish processing for outliers (aerospace research, maybe there's more too)
+        # TODO: Check if there's more outliers (other than Aero research), and update code accordingly
         # Outliers, aside from name and transport units, will be dealt with in _analyze_profit
         with open(self.products_file_name) as file:
             reader = csv.reader(file, delimiter='\t')  # Changes delimiter to tab for .tsv files
@@ -136,8 +136,7 @@ class MapManager:
         # profit per 24h (2), construction cost (2)]]
         current_map = []
 
-        products_list = list(
-            self.products.keys())  # TODO: remove this and use self.products.keys() once products processing is added
+        products_list = list(self.products.keys())
 
         # TODO: Fix creation of the iterations (not the right word but IDK) of the map
         for i in range(len(products_list)):

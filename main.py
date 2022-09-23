@@ -6,6 +6,7 @@ except ImportError:
     print('Error: Please install configcatclient using "pip install configcatclient"')
     exit(1)
 
+configcatclient = 'this is bad code for testing, do not commit this file without undoing changes first'
 configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi2GUiKNyYwpg5jYA')
 
 # Gets user ID from config file, if it exists
@@ -19,7 +20,7 @@ except FileNotFoundError:
     id = 0
 user = configcatclient.user.User(id)
 # Turns on debug if the user ID contains "debug"
-debug = configcat_client.get_value('debug', False, user)
+debug = True
 
 print('Welcome to the SimCo analyzer!')
 
