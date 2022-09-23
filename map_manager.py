@@ -124,7 +124,10 @@ class MapManager:
             self.products = {}
             for row in reader:
                 temp = list(row)
-                self.products[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
+                if temp[0] != 'Product' and temp[0] != '':
+                    self.products[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
+                    if self.debug:
+                        print(f'{temp[0].lower()}:', self.products[temp[0].lower()])
         pickle.dump(self.products, open(f'{self.products_file_name[:-4]}.pickle', 'wb'))
 
         os.chdir('..')
