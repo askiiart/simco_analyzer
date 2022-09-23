@@ -18,6 +18,8 @@ try:
 except FileNotFoundError:
     id = 0
 user = configcatclient.user.User(id)
+# Turns on debug if the user ID contains "debug"
+debug = configcat_client.get_value('debug', False, user)
 
 print('Welcome to the SimCo analyzer!')
 

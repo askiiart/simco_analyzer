@@ -14,8 +14,6 @@ class MapManager:
         """
         Initializes the MapManager class
         :param map_slots: The number of map slots available
-        :param download_new: Download new data
-        :param debug: Run in debug mode
         :param max_building_cost: Maximum building cost (optional)
         """
         self.map_slots = map_slots
