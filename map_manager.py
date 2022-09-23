@@ -8,6 +8,14 @@ except ImportError as e:
     print('Error: Please install wget using "pip install wget"')
     exit(1)
 
+def main():
+    print('Great job, you ran this module, not main.py!')
+    kuni = True
+    if kuni:
+        print('For more info:')
+        print('https://www.youtube.com/watch?v=qileP4bAzek')
+    else:
+        print('Please run main.py instead.')
 
 class MapManager:
     def __init__(self, map_slots, max_building_cost=9999999999999999999999, **kwargs):
@@ -16,6 +24,7 @@ class MapManager:
         :param map_slots: The number of map slots available
         :param max_building_cost: Maximum building cost (optional)
         """
+
         self.map_slots = map_slots
         if 'download_new' in kwargs:
             self.download = kwargs['download_new']
@@ -155,3 +164,8 @@ class MapManager:
 
     def get_results(self):
         pass
+
+
+if __name__ == '__main__':
+    main()
+    exit(0)
