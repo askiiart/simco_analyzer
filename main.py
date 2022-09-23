@@ -6,7 +6,6 @@ except ImportError:
     print('Error: Please install configcatclient using "pip install configcatclient"')
     exit(1)
 
-configcatclient = 'this is bad code for testing, do not commit this file without undoing changes first'
 configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi2GUiKNyYwpg5jYA')
 
 # Gets user ID from config file, if it exists
@@ -20,7 +19,7 @@ except FileNotFoundError:
     id = 0
 user = configcatclient.user.User(id)
 # Turns on debug if the user ID contains "debug"
-debug = True
+debug = configcat_client.get_value('debug', False, user)
 
 print('Welcome to the SimCo analyzer!')
 
@@ -29,13 +28,14 @@ map_slots = 12
 download = True
 max_building_cost = 100_000_000
 
+# Turns on debug if the user ID contains "debug"
+debug = configcat_client.get_value('debug', False, user)
 if debug:
     print('Debug:', debug)
     print('Map slots:', map_slots)
     print('Download:', download)
     print('Max building cost', max_building_cost)
 
-# Run
 manager = MapManager(map_slots, max_building_cost, download_new=download, debug=debug)
 #manager.run()
 #print(manager.get_results())
