@@ -48,8 +48,6 @@ class MapManager:
         self.download_and_process()
 
     def download_and_process(self):
-        # TODO: Simplify this logic
-        # TODO: Add pickling for building and products info (not prices)
 
         if 'data' not in os.listdir():
             os.mkdir('data')
@@ -147,7 +145,6 @@ class MapManager:
 
         products_list = list(self.products.keys())
 
-        # TODO: Fix creation of the iterations (not the right word but IDK) of the map
         for i in range(len(products_list)):
             current_map[0] = [products_list[i]]
             for j in range(self.map_slots):
