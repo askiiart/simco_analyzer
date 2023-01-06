@@ -1,8 +1,6 @@
 from map_manager import MapManager
 import os
 
-configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi2GUiKNyYwpg5jYA')
-
 debug = True
 
 print('Welcome to the SimCo analyzer!')
