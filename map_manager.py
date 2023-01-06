@@ -1,12 +1,7 @@
 import os
+from subprocess import getoutput
 import csv
 import pickle
-
-try:
-    from wget import download
-except ImportError as e:
-    print('Error: Please install wget using "pip install wget"')
-    exit(1)
 
 def main():
     x = 'n'
@@ -26,10 +21,6 @@ class MapManager:
         """
 
         self.map_slots = map_slots
-        if 'download_new' in kwargs:
-            self.download = kwargs['download_new']
-        else:
-            self.download = True
         self.max_building_cost = max_building_cost
 
         self.prices = {}
@@ -49,28 +40,15 @@ class MapManager:
             os.mkdir('data')
         os.chdir('data')
 
-        # Exchange info download
-        # This does not set the exchange info to not download, it is just a temporary bool to help with this logic.
-        exchange_download = False
-        if download:
-            exchange_download = True
-        elif self.exchange_file_name not in os.listdir():
-            exchange_download = True
-
-        if exchange_download:
-            if self.exchange_file_name in os.listdir():
-                os.remove(self.exchange_file_name)
-            download(
-                'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv',
-                self.exchange_file_name)
+        if self.exchange_file_name in os.listdir():
+            os.remove(self.exchange_file_name)
+        getoutput(f'wget "https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv" -O "{self.exchange_file_name}"')
 
         # Buildings download
         if f'{self.buildings_file_name[:-4]}.pickle' in os.listdir():
             pickle.load(open(f'{self.buildings_file_name[:-4]}.pickle', 'rb'))
         elif self.buildings_file_name not in os.listdir():
-            download(
-                'https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv',
-                self.buildings_file_name)
+            getoutput(f'wget "https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv" -O "{self.buildings_file_name}"')
         else:
             print('Building info already downloaded, but not pickled')
 
@@ -78,9 +56,7 @@ class MapManager:
         if f'{self.products_file_name[:-4]}.pickle' in os.listdir():
             pickle.load(open(f'{self.products_file_name[:-4]}.pickle', 'rb'))
         elif self.products_file_name not in os.listdir():
-            download(
-                'https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv',
-                self.products_file_name)
+            getoutput(f'wget "https://docs.google.com/spreadsheets/d/16S_NxDa0XLeTftzDDogrXLr9TWND6XrgYqxvuQ1a5q8/export?format=tsv" -O "{self.products_file_name}"')
             print('Product info downloaded')
         else:
             print('Product info already downloaded, but not pickled')
