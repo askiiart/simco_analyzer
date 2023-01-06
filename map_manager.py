@@ -30,10 +30,6 @@ class MapManager:
             self.download = kwargs['download_new']
         else:
             self.download = True
-        if 'debug' in kwargs:
-            self.debug = kwargs['debug']
-        else:
-            self.debug = False
         self.max_building_cost = max_building_cost
 
         self.prices = {}
@@ -52,8 +48,6 @@ class MapManager:
         if 'data' not in os.listdir():
             os.mkdir('data')
         os.chdir('data')
-        if self.debug:
-            print(os.listdir())
 
         # Exchange info download
         # This does not set the exchange info to not download, it is just a temporary bool to help with this logic.
@@ -66,25 +60,17 @@ class MapManager:
         if exchange_download:
             if self.exchange_file_name in os.listdir():
                 os.remove(self.exchange_file_name)
-            if self.debug:
-                print('Downloading exchange info...')
             download(
                 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTqF15cr_qWfAjNL-zp1IWH7RM_T-xudXewWO5IkNwpvBFYZHrglDFYsdumH2EduNgysIFm2oB3g95n/pub?gid=1547132983&single=true&output=tsv',
                 self.exchange_file_name)
-            if self.debug:
-                print('Exchange info downloaded')
 
         # Buildings download
         if f'{self.buildings_file_name[:-4]}.pickle' in os.listdir():
             pickle.load(open(f'{self.buildings_file_name[:-4]}.pickle', 'rb'))
         elif self.buildings_file_name not in os.listdir():
-            if self.debug:
-                print('Downloading building info...')
             download(
                 'https://docs.google.com/spreadsheets/d/16J269YAFTVy_IPuzGUXfV_4-Rplzk1LVk7YpsvDcEVY/export?format=tsv',
                 self.buildings_file_name)
-            if self.debug:
-                print('Building info downloaded')
         else:
             print('Building info already downloaded, but not pickled')
 
@@ -131,27 +117,24 @@ class MapManager:
                 temp = list(row)
                 if temp[0] != 'Product' and temp[0] != '':
                     self.products[temp[0].lower()] = [row[i].lower() for i in range(1, len(row))]
-                    if self.debug:
-                        print(f'{temp[0].lower()}:', self.products[temp[0].lower()])
         pickle.dump(self.products, open(f'{self.products_file_name[:-4]}.pickle', 'wb'))
 
         os.chdir('..')
 
     def run(self):
 
-        self.best_maps = []  # In the format [[[products list], profit per 24h, construction cost], [{products set (2)},
-        # profit per 24h (2), construction cost (2)]]
-        current_map = []
+        self.best_flows = [] # In the format [[['stuff', 'to', 'produce'], ['stuff', 'to', 'sell]]]
+        current_flow = []
 
         products_list = list(self.products.keys())
 
         for i in range(len(products_list)):
-            current_map[0] = [products_list[i]]
+            current_flow.append([products_list[i]])
             for j in range(self.map_slots):
                 k = i + j + 1
-                current_map[0].append(products_list[k])
-                if self.debug:
-                    print(current_map[0])
+                if k >= len(products_list):
+                    break
+                current_flow.append(products_list[k])
 
     def _analyze_profit(self, products):
         pass
