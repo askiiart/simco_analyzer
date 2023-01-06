@@ -9,13 +9,11 @@ except ImportError as e:
     exit(1)
 
 def main():
-    x = 'y'
-    while x == 'y':
+    x = 'n'
+    while x != 'y':
         print('Error: Please watch this video for more info.')
         print('https://www.youtube.com/watch?v=qileP4bAzek')
         x = input('Did you watch the video? [y/N]\n')
-    if input('Do you need captions? [y/N]') == 'y':
-        print("STUPID! You're so STUPID!")
     print('Now run main.py :)')
         
 

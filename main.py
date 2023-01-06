@@ -1,7 +1,6 @@
 from map_manager import MapManager
 import os
 
-configcat_client = configcatclient.create_client('NZjaCBb38UWP6hR3IITbHQ/ooWBoRi2GUiKNyYwpg5jYA')
 
 debug = True
 
@@ -12,8 +11,6 @@ map_slots = 12
 download = True
 max_building_cost = 100_000_000
 
-# Turns on debug if the user ID contains "debug"
-debug = configcat_client.get_value('debug', False, user)
 if debug:
     print('Debug:', debug)
     print('Map slots:', map_slots)
