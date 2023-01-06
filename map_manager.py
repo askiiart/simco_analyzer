@@ -9,13 +9,15 @@ except ImportError as e:
     exit(1)
 
 def main():
-    print('Great job, you ran this module, not main.py!')
-    kuni = True
-    if kuni:
-        print('For more info:')
+    x = 'y'
+    while x == 'y':
+        print('Error: Please watch this video for more info.')
         print('https://www.youtube.com/watch?v=qileP4bAzek')
-    else:
-        print('Please run main.py instead.')
+        x = input('Did you watch the video? [y/N]\n')
+    if input('Do you need captions? [y/N]') == 'y':
+        print("STUPID! You're so STUPID!")
+    print('Now run main.py :)')
+        
 
 class MapManager:
     def __init__(self, map_slots, max_building_cost=9999999999999999999999, **kwargs):
